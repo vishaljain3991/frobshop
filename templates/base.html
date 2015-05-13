@@ -58,6 +58,7 @@
 
     <body id="{% block body_id %}default{% endblock %}" class="{% block body_class %}default{% endblock %}">
         {# Main content goes in this 'layout' block #}
+        
         {% block layout %}{% endblock %}
 
         {% block tracking %}
@@ -84,11 +85,108 @@
             <script src="{% static "oscar/js/oscar/ui.js" %}" type="text/javascript" charset="utf-8"></script>
             {% endcompress %}
         {% endblock %}
+       <!-- <form action="#" method="post">
+{% csrf_token %}
+
+    <input type="radio" name="choice"  value="vishal" />
+   
+<input type="submit" value="Vote" />
+</form>-->
+
+<div id="check">
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" data-url="">
+    Ocassion
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation" data-url="/marble/ganesh_11"><a role="menuitem" tabindex="-1" >Ganesh</a></li>
+
+   
+  </ul>
+</div>
+</div>
+
+<div id="check1">
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" data-url="">
+    Relationship
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation" data-url="/clay/pot_14/"><a role="menuitem" tabindex="-1" >Clay</a></li>
+    
+  </ul>
+</div>
+</div>
+
+<button id="searcher" type="button" class="btn btn-default" >Search</button>
+
+
+ <!-- http://127.0.0.1:8000/catalogue/marble/ganesh_11/clay/pot_14/-->
+
+
 
         {# Additional JS scripts #}
         {% block extrascripts %}{% endblock %}
 
         {# Block for body onload functions #}
+        <script>
+        //Helps to get search elements url 
+        $(document).ready(function(){
+            $("#check li").click(function(){
+                var a = $(this).text();
+                console.log(a);
+                $("#check button").text(a);
+                $("#check button").attr("data-url", $(this).attr("data-url"));
+                
+                });
+                
+            $("#check1 li").click(function(){
+                var a = $(this).text();
+                console.log(a);
+                $("#check1 button").text(a);
+                $("#check1 button").attr("data-url", $(this).attr("data-url"));
+                
+                });
+                
+            $("#searcher").click(function(){
+               // var a = $("#check button").attr("data-url");
+                if ($("#check button").attr("data-url") ==="" && $("#check1 button").attr("data-url") ==="" ){
+                    var a =  "/catalogue/"
+                }
+                else if($("#check button").attr("data-url") !="" && $("#check1 button").attr("data-url") ===""){
+                    var a = "/catalogue/category" + $("#check button").attr("data-url") + "/"
+                }
+                else if($("#check button").attr("data-url") ==="" && $("#check1 button").attr("data-url") !=""){
+                    var a = "/catalogue/category" + $("#check1 button").attr("data-url")
+                }
+                else{
+                    var a = "/catalogue" + $("#check button").attr("data-url") + $("#check1 button").attr("data-url");
+                }
+                
+                console.log(a);
+                window.location = a;
+                });
+           });
+           
+           
+          
+           
+           /*$("#searcher").click(function(){
+                
+                var a = "/catalogue" + $("#check button").attr("data-url") + $("#check1 button").attr("data-url");
+                console.log(a)
+               
+                });
+           });*/
+           
+           function btntest_onclick() 
+            {
+                
+                window.location.href = "http://www.google.com";
+            }
+        </script>
         <script type="text/javascript">
             $(function() {
                 oscar.init();
@@ -98,5 +196,6 @@
 
         {# Page meta-data - this is populated by the 'metadata' template context processor #}
         <!-- {% trans "Version:" %} {{ version }} -->
+        
     </body>
 </html>
