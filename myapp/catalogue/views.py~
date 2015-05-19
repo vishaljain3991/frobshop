@@ -18,19 +18,22 @@ class BothCategoryView(TemplateView):
     template_name = 'catalogue/browse.html'
     context_object_name = "products"
     def get_products(self):
+        qs = Product.browsable.base_queryset()
+        
         if 'pk' in self.kwargs and 'pk1' in self.kwargs:
-            self.first_categoryproduct = ProductCategory.objects.filter(category_id=self.kwargs['pk'])
-            self.second_categoryproduct = ProductCategory.objects.filter(category_id=self.kwargs['pk1'])
-            self.product_ids = set(firstproduct.product_id for firstproduct in self.first_categoryproduct)
-            return [Product.objects.filter(id=item.product_id)[0] for item in self.second_categoryproduct if item.product_id in self.product_ids]
+            self.first_category = Category.objects.filter(id=self.kwargs['pk'])[0]
+            self.second_category = Category.objects.filter(id=self.kwargs['pk1'])[0]
+            self.first_categoryproduct = qs.filter(categories__in=[self.first_category,])
+            self.second_categoryproduct = qs.filter(categories__in=[self.second_category,])
+            return list(set(self.first_categoryproduct) & set(self.second_categoryproduct))
+           
             
         
-        self.id0=Category.objects.filter(slug=self.kwargs['category_slug'])[0].id
-        self.id1=Category.objects.filter(slug=self.kwargs['category_slug1'])[0].id     
-        self.first_categoryproduct = ProductCategory.objects.filter(category_id=self.id0)
-        self.second_categoryproduct = ProductCategory.objects.filter(category_id=self.id1)
-        self.product_ids = set(firstproduct.product_id for firstproduct in self.first_categoryproduct)
-        return [Product.objects.filter(id=item.product_id)[0] for item in self.second_categoryproduct if item.product_id in self.product_ids]
+        self.first_category = Category.objects.filter(slug=self.kwargs['category_slug'])[0]
+        self.second_category = Category.objects.filter(slug=self.kwargs['category_slug1'])[0]
+        self.first_categoryproduct = qs.filter(categories__in=[self.first_category,]).distinct()
+        self.second_categoryproduct = qs.filter(categories__in=[self.second_category,]).distinct()
+        return list(set(self.first_categoryproduct) & set(self.second_categoryproduct))
             
         
     def get_context_data(self, **kwargs):

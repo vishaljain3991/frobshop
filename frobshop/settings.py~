@@ -13,6 +13,7 @@ import os
 from oscar import get_core_apps
 from oscar.defaults import *
 from password import secret
+from django.utils.translation import ugettext_lazy as _
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -50,10 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
+    'debug_toolbar',
+    'paypal',
     'compressor',
 
 
-] + get_core_apps(['myapp.order', 'myapp.catalogue',])
+] + get_core_apps(['myapp.order', 'myapp.catalogue', 'myapp.checkout',])
 SITE_ID = 1
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -167,7 +170,7 @@ STATICFILES_FINDERS = (
 )
 
 STATICFILES_DIRS = (
-    "/home/vishal/oscar_1/frobshop/static",
+    "/home/vishal/oscar_2/frobshop/static",
 )
 COMPRESS_ENABLED = True
 USE_LESS = False
@@ -181,3 +184,104 @@ COMPRESS_OFFLINE_CONTEXT = {
 }
 
 THUMBNAIL_DEBUG = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['null'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'oscar.checkout': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django.db.backends': {
+            'handlers': ['null'],
+            'propagate': False,
+            'level': 'DEBUG',
+        },
+        'paypal.express': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'paypal.payflow': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+    }
+}
+
+OSCAR_SHOP_NAME = 'CultIndus'
+
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': _('PayPal'),
+        'icon': 'icon-globe',
+        'children': [
+            {
+                'label': _('PayFlow transactions'),
+                'url_name': 'paypal-payflow-list',
+            },
+            {
+                'label': _('Express transactions'),
+                'url_name': 'paypal-express-list',
+            },
+        ]
+    })
+
+
+# Taken from PayPal's documentation - these should always work in the sandbox
+PAYPAL_SANDBOX_MODE = True
+PAYPAL_CALLBACK_HTTPS = False
+PAYPAL_API_VERSION = '119'
+
+# These are the standard PayPal sandbox details from the docs - but I don't
+# think you can get access to the merchant dashboard.
+PAYPAL_API_USERNAME = 'vishaljainthebest_api1.gmail.com'
+PAYPAL_API_PASSWORD = 'MM7XUP4EQT3QUGWU'
+PAYPAL_API_SIGNATURE = 'ArYFHXOXjn34pCIr6guS8X9h-L7UAjMptfnHPOeFQa68IkuqI1A4QZi-'
+
+# Standard currency is GBP
+PAYPAL_CURRENCY = PAYPAL_PAYFLOW_CURRENCY = 'GBP'
+PAYPAL_PAYFLOW_DASHBOARD_FORMS = True
+
+# Put your own sandbox settings into an integration.py modulde (that is ignored
+# by git).
+try:
+    from integration import *  # noqa
+except ImportError:
+    pass

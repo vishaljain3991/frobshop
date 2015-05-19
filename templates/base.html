@@ -58,7 +58,61 @@
 
     <body id="{% block body_id %}default{% endblock %}" class="{% block body_class %}default{% endblock %}">
         {# Main content goes in this 'layout' block #}
-        
+<div style="display:inline-block">      
+<div id="check" >
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" data-url="">
+    Ocassion
+    
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation" data-url="/marble/ganesh_11">
+                <a role="menuitem" tabindex="-1" >Ganesh</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="check1">
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" data-url="">
+    Relationship
+    
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation" data-url="/clay/pot_14/">
+                <a role="menuitem" tabindex="-1" >Clay</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<button id="searcher" type="button" class="btn btn-default" >Search</button>
+<!--<form action='https://www.2checkout.com/checkout/purchase' method='post'>
+<input type='hidden' name='sid' value='1303908' >
+<input type='hidden' name='mode' value='2CO' >
+<input type='hidden' name='li_0_type' value='product' >
+<input type='hidden' name='li_0_name' value='Example Product Name' >
+<input type='hidden' name='li_0_product_id' value='Example Product ID' >
+<input type='hidden' name='li_0__description' value='Example Product Description' >
+<input type='hidden' name='li_0_price' value='10.00' >
+<input type='hidden' name='li_0_quantity' value='2' >
+<input type='hidden' name='li_0_tangible' value='N' >
+<input type='hidden' name='card_holder_name' value='Checkout Shopper' >
+<input type='hidden' name='street_address' value='123 Test St' >
+<input type='hidden' name='street_address2' value='Suite 200' >
+<input type='hidden' name='city' value='Columbus' >
+<input type='hidden' name='state' value='OH' >
+<input type='hidden' name='zip' value='43228' >
+<input type='hidden' name='country' value='USA' >
+<input type='hidden' name='email' value='example@2co.com' >
+<input type='hidden' name='phone' value='614-921-2450' >
+<input type='hidden' name='phone_extension' value='197' >
+<input type='hidden' name='purchase_step' value='payment-method' >
+<input name='submit' type='submit' value='Checkout' >
+</form>-->
+
         {% block layout %}{% endblock %}
 
         {% block tracking %}
@@ -93,37 +147,9 @@
 <input type="submit" value="Vote" />
 </form>-->
 
-<div id="check">
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" data-url="">
-    Ocassion
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation" data-url="/marble/ganesh_11"><a role="menuitem" tabindex="-1" >Ganesh</a></li>
-
-   
-  </ul>
-</div>
-</div>
-
-<div id="check1">
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" data-url="">
-    Relationship
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation" data-url="/clay/pot_14/"><a role="menuitem" tabindex="-1" >Clay</a></li>
-    
-  </ul>
-</div>
-</div>
-
-<button id="searcher" type="button" class="btn btn-default" >Search</button>
 
 
- <!-- http://127.0.0.1:8000/catalogue/marble/ganesh_11/clay/pot_14/-->
+
 
 
 
@@ -136,7 +162,7 @@
         $(document).ready(function(){
             $("#check li").click(function(){
                 var a = $(this).text();
-                console.log(a);
+                //console.log(a);
                 $("#check button").text(a);
                 $("#check button").attr("data-url", $(this).attr("data-url"));
                 
@@ -144,7 +170,7 @@
                 
             $("#check1 li").click(function(){
                 var a = $(this).text();
-                console.log(a);
+                //console.log(a);
                 $("#check1 button").text(a);
                 $("#check1 button").attr("data-url", $(this).attr("data-url"));
                 
@@ -165,27 +191,12 @@
                     var a = "/catalogue" + $("#check button").attr("data-url") + $("#check1 button").attr("data-url");
                 }
                 
-                console.log(a);
+                //console.log(a);
                 window.location = a;
                 });
            });
            
            
-          
-           
-           /*$("#searcher").click(function(){
-                
-                var a = "/catalogue" + $("#check button").attr("data-url") + $("#check1 button").attr("data-url");
-                console.log(a)
-               
-                });
-           });*/
-           
-           function btntest_onclick() 
-            {
-                
-                window.location.href = "http://www.google.com";
-            }
         </script>
         <script type="text/javascript">
             $(function() {
