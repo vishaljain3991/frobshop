@@ -279,6 +279,8 @@ PAYPAL_API_SIGNATURE = 'ArYFHXOXjn34pCIr6guS8X9h-L7UAjMptfnHPOeFQa68IkuqI1A4QZi-
 PAYPAL_CURRENCY = PAYPAL_PAYFLOW_CURRENCY = 'GBP'
 PAYPAL_PAYFLOW_DASHBOARD_FORMS = True
 
+PAYPAL_PAYFLOW_VENDOR_ID = 'vishaljainthebest'
+PAYPAL_PAYFLOW_PASSWORD = 'mdG6GNuU'
 # Put your own sandbox settings into an integration.py modulde (that is ignored
 # by git).
 try:
