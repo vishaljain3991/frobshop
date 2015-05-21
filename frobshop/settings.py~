@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 AUTHENTICATION_BACKENDS = (
     'oscar.apps.customer.auth_backends.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
+    #all auth
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 HAYSTACK_CONNECTIONS = {
@@ -54,10 +56,15 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'paypal',
     'compressor',
+    #all auth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 
 
 ] + get_core_apps(['myapp.order', 'myapp.catalogue', 'myapp.checkout',])
-SITE_ID = 1
+SITE_ID = 2
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,6 +112,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'oscar.apps.checkout.context_processors.checkout',
     'oscar.apps.customer.notifications.context_processors.notifications',
     'oscar.core.context_processors.metadata',
+    #all auth
+    'django.core.context_processors.request',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
 )
 
 from oscar import OSCAR_MAIN_TEMPLATE_DIR
@@ -142,7 +153,17 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+#all auth
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False
+    }
+}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 # Absolute path to the directory that holds media.
